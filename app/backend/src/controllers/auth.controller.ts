@@ -1,19 +1,17 @@
 import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
-import UserModel from '../models/user.model';
+import UserService from '../services/user.service';
+import mapStatusHTTP from '../utils/mapStatusHTTP';
+import { ILogin } from '../Interfaces/users/IUser';
 
 class AuthController {
-  jwt = jwt.sign;
-  userModel = new UserModel();
+  private userService = new UserService();
 
   async login(req: Request, res: Response) {
-    const { email } = req.body;
-    const user = await this.userModel.findByEmail(email);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const { status, data } = await this.userService.findByEmail(req.body as ILogin);
+    if (status !== 'SUCCESSFUL') {
+      return res.status(mapStatusHTTP(status)).json(data);
     }
-    const token = this.jwt({ id: user.id }, 'secret');
-    return res.status(200).json({ token });
+    return res.status(200).json(data);
   }
 }
 
