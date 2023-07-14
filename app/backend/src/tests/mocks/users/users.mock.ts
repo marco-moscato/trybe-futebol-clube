@@ -1,4 +1,6 @@
-export const userMock = {
+import { IUser } from '../../../Interfaces/users/IUser';
+
+export const userMock: IUser = {
   id: 1,
   username: 'fakeuser',
   role: 'admin',
