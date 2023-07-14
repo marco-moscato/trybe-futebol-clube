@@ -14,7 +14,7 @@ class Validations {
     if (!(emailRegex.test(email)) || password.length < 6) {
       return res.status(401).json({
         message: 'Invalid email or password',
-      })
+      });
     }
     next();
   }
