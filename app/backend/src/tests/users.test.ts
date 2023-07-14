@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import SequelizeUser from '../database/models/SequelizeUser';
 import { userMock, tokenMock } from './mocks/users/users.mock';
-import { ILogin } from '../Interfaces/users/IUser';
+import { ILogin, IUser } from '../Interfaces/users/IUser';
 
 import { app } from '../app';
 
@@ -16,7 +16,9 @@ const { expect } = chai;
 
 describe('Dado a rota /login', function () {
 
-  afterEach(sinon.restore);
+  afterEach(function () {
+    sinon.restore();
+  })
 
   describe('Dado o método POST', function () {
     describe('Dado que as informação de login do usuário estão corretas', function () {
@@ -26,12 +28,32 @@ describe('Dado a rota /login', function () {
           password: 'valid-password',
         }
 
+        sinon.stub(SequelizeUser, 'findOne').resolves(userMock as SequelizeUser)
+
         const { status, body } = await chai.request(app)
           .post('/login')
           .send(loginData);
         
         expect(status).to.be.equal(200);
         expect(body).to.haveOwnProperty('token');
+      });
+    });
+
+    describe('Dado que o email informado não está cadastrado', function () {
+      it('Retorna um erro com status 404', async function() {
+        const loginData: ILogin = {
+          email: 'not_found@email.com',
+          password: 'valid-password',
+        }
+
+        sinon.stub(SequelizeUser, 'findOne').resolves(null)
+
+        const { status, body } = await chai.request(app)
+          .post('/login')
+          .send(loginData);
+        
+        expect(status).to.be.equal(404);
+        expect(body.message).to.be.equal('User not found');
       });
     });
 
