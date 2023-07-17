@@ -3,15 +3,18 @@ import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import { ILogin } from '../Interfaces/users/IUser';
 import UserModel from '../models/user.model';
 import Jwt from '../utils/jwtAuth';
+import { Token } from '../Interfaces/Token';
 
 class UserService {
   private userModel = new UserModel();
   private jwt = new Jwt();
 
-  async findByEmail(login: ILogin): Promise<ServiceResponse<{ token: string }>> {
+  async findByEmail(login: ILogin): Promise<ServiceResponse<Token>> {
     const { email, password } = login;
+    
     const user = await this.userModel.findByEmail(email);
-    const unauthorized: ServiceResponse<{ token: string }> = {
+
+    const unauthorized: ServiceResponse<Token> = {
       status: 'UNAUTHORIZED',
       data: { message: 'Invalid email or password' },
     };
