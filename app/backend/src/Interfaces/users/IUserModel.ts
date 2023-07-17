@@ -1,5 +1,7 @@
 import { IUser } from './IUser';
+import { Identifiable } from '..';
 
-export interface IUserModel {
+export type IUserModel = {
   findByEmail(email: IUser['email']): Promise<IUser | null>;
+  findById(id: IUser['id']): Promise<IUser | null>;
 }
