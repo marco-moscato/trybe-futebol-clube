@@ -13,6 +13,15 @@ class AuthController {
     }
     return res.status(200).json(data);
   }
+
+  async userRole(req: Request, res: Response) {
+    const { id } = res.locals.user;
+    const { status, data } = await this.userService.findById(id);
+    if (status !== 'SUCCESSFUL') {
+      return res.status(mapStatusHTTP(status)).json(data);
+    }
+    return res.status(200).json({ role: data.role });
+  }
 }
 
 export default AuthController;

@@ -16,10 +16,7 @@ router.post(
 router.get(
   '/role',
   Auth.verifyToken,
-  async (req, res) => {
-    const userRole = res.locals.user.role;
-    return res.status(200).json({ role: userRole });
-  },
+  (req, res) => authController.userRole(req, res),
 );
 
 export default router;

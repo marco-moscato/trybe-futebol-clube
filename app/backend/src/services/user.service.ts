@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
-import { ILogin } from '../Interfaces/users/IUser';
+import { ILogin, IUser } from '../Interfaces/users/IUser';
 import UserModel from '../models/user.model';
 import Jwt from '../utils/jwtAuth';
 import { Token } from '../Interfaces/Token';
@@ -19,9 +19,7 @@ class UserService {
       data: { message: 'Invalid email or password' },
     };
 
-    if (!user) {
-      return unauthorized;
-    }
+    if (!user) return unauthorized;
 
     if (!bcrypt.compareSync(password, user.password)) {
       return unauthorized;
@@ -29,10 +27,20 @@ class UserService {
 
     const token = this.jwt.sign({ id: user.id });
 
-    return {
-      status: 'SUCCESSFUL',
-      data: { token },
-    };
+    return { status: 'SUCCESSFUL', data: { token } };
+  }
+
+  async findById(id: number): Promise<ServiceResponse<IUser>> {
+    const user = await this.userModel.findById(id);
+
+    if (!user) {
+      return {
+        status: 'UNAUTHORIZED',
+        data: { message: 'Token must be a valid token' },
+      };
+    }
+
+    return { status: 'SUCCESSFUL', data: user };
   }
 }
 
