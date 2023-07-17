@@ -11,7 +11,7 @@ class UserService {
 
   async findByEmail(login: ILogin): Promise<ServiceResponse<Token>> {
     const { email, password } = login;
-    
+
     const user = await this.userModel.findByEmail(email);
 
     const unauthorized: ServiceResponse<Token> = {
