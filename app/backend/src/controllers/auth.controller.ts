@@ -20,7 +20,7 @@ class AuthController {
     if (status !== 'SUCCESSFUL') {
       return res.status(mapStatusHTTP(status)).json(data);
     }
-    return res.status(200).json({ role: data.role });
+    return res.status(200).json({ role: data });
   }
 }
 

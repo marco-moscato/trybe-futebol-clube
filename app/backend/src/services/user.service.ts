@@ -30,7 +30,7 @@ class UserService {
     return { status: 'SUCCESSFUL', data: { token } };
   }
 
-  async findById(id: number): Promise<ServiceResponse<IUser>> {
+  async findById(id: number): Promise<ServiceResponse<IUser['role']>> {
     const user = await this.userModel.findById(id);
 
     if (!user) {
@@ -40,7 +40,7 @@ class UserService {
       };
     }
 
-    return { status: 'SUCCESSFUL', data: user };
+    return { status: 'SUCCESSFUL', data: user.role };
   }
 }
 
