@@ -54,9 +54,8 @@ describe('Testa a rota /login/role', function () {
   describe('Caso o token seja válido', function () {
     it('Retorna o tipo de usuário com status 200', async function() {
       const validToken = 'validToken';
-      const jwt = new Jwt();
 
-      sinon.stub(jwt, 'verify').returns({ id: 1 });
+      sinon.stub(Jwt.prototype, 'verify').returns({ id: 1 });
 
       const fakeUser = SequelizeUser.build(userMock);
 
@@ -65,7 +64,6 @@ describe('Testa a rota /login/role', function () {
       const { status, body } = await chai.request(app)
         .get('/login/role')
         .set({ Authorization: `Bearer ${validToken}` })
-        // .set({ user: `Bearer ${validToken}` });
       
       expect(status).to.be.equal(200);
       expect(body.role).to.be.equal(fakeUser.role);
