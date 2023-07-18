@@ -30,6 +30,11 @@ export const matchInProgress = {
   }
 };
 
+export const matchToUpdate = {
+  homeTeamGoals: 3,
+  awayTeamGoals: 1,
+}
+
 export const allMatches = [matchInProgress, finishedMatch];
 
 export const matchesInProgress = [matchInProgress];
