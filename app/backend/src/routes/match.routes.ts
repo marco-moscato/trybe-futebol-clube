@@ -1,20 +1,16 @@
 import { Request, Response, Router } from 'express';
-import SequelizeMatch from '../database/models/SequelizeMatch';
-import SequelizeTeam from '../database/models/SequelizeTeam';
+import MatchController from '../controllers/match.controller';
+import MatchService from '../services/match.service';
+import MatchModel from '../models/match.model';
 
 const router = Router();
+const matchModel = new MatchModel();
+const matchService = new MatchService(matchModel);
+const matchController = new MatchController(matchService);
 
 router.get(
   '/',
-  async (_req: Request, res: Response) => {
-    const matches = await SequelizeMatch.findAll({
-        include: [
-          { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
-          { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
-        ],
-      });
-    return res.status(200).json(matches);
-  },
+  async (_req: Request, res: Response) => matchController.findAll(_req, res),
 );
 
 export default router;
