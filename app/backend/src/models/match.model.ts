@@ -15,6 +15,14 @@ class MatchModel implements IMatchModel {
     });
     return dbData;
   }
+
+  async finish(id: IMatch['id']): Promise<number> {
+    const [affectedRows] = await this.model.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+    return affectedRows;
+  }
 }
 
 export default MatchModel;
