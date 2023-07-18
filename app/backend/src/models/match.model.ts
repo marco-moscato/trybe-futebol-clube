@@ -8,11 +8,11 @@ class MatchModel implements IMatchModel {
 
   async findAll(): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
-        include: [
-          { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
-          { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
-        ],
-      });
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
     return dbData;
   }
 }
