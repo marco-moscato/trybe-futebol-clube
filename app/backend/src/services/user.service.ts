@@ -6,8 +6,10 @@ import Jwt from '../utils/jwtAuth';
 import { Token } from '../Interfaces/Token';
 
 class UserService {
-  private userModel = new UserModel();
-  private jwt = new Jwt();
+  constructor(
+    private userModel = new UserModel(),
+    private jwt = new Jwt(),
+  ) {}
 
   async findByEmail(login: ILogin): Promise<ServiceResponse<Token>> {
     const { email, password } = login;

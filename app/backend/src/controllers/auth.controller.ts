@@ -4,7 +4,9 @@ import mapStatusHTTP from '../utils/mapStatusHTTP';
 import { ILogin } from '../Interfaces/users/IUser';
 
 class AuthController {
-  private userService = new UserService();
+  constructor(
+    private userService = new UserService(),
+  ) {}
 
   async login(req: Request, res: Response) {
     const { status, data } = await this.userService.findByEmail(req.body as ILogin);
