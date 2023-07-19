@@ -46,7 +46,7 @@ class MatchController {
 
   public async create(req: Request, res: Response) {
     const match = req.body;
-   
+
     const { status, data } = await this.matchService.create(match);
 
     if (status !== 'SUCCESSFUL') {

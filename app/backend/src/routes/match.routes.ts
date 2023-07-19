@@ -3,8 +3,6 @@ import MatchController from '../controllers/match.controller';
 import MatchService from '../services/match.service';
 import MatchModel from '../models/match.model';
 import Auth from '../middlewares/auth.middleware';
-import SequelizeMatch from '../database/models/SequelizeMatch';
-import { match } from 'assert';
 
 const router = Router();
 const matchModel = new MatchModel();

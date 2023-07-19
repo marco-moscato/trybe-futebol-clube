@@ -41,14 +41,14 @@ class MatchModel implements IMatchModel {
   }
 
   async create(data: NewEntity<IMatch>): Promise<IMatch> {
-    const newMatch = await SequelizeMatch.create({
+    const newMatch = await this.model.create({
       homeTeamId: data.homeTeamId,
       homeTeamGoals: data.homeTeamGoals,
       awayTeamId: data.awayTeamId,
       awayTeamGoals: data.awayTeamGoals,
       inProgress: true,
     });
-    
+
     return newMatch;
   }
 }
