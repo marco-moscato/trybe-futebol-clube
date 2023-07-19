@@ -44,6 +44,15 @@ class MatchService {
   }
 
   public async create(data: NewEntity<IMatch>): Promise<ServiceResponse<IMatch>> {
+    const { homeTeamId, awayTeamId } = data;
+
+    if (homeTeamId === awayTeamId) {
+      return {
+        status: 'UNPROCESSABLE',
+        data: { message: 'It is not possible to create a match with two equal teams' },
+      };
+    }
+
     const modelResponse = await this.matchModel.create(data);
     return { status: 'SUCCESSFUL', data: modelResponse };
   }
