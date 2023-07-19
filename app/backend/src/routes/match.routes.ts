@@ -4,6 +4,7 @@ import MatchService from '../services/match.service';
 import MatchModel from '../models/match.model';
 import Auth from '../middlewares/auth.middleware';
 import SequelizeMatch from '../database/models/SequelizeMatch';
+import { match } from 'assert';
 
 const router = Router();
 const matchModel = new MatchModel();
@@ -30,19 +31,7 @@ router.patch(
 router.post(
   '/',
   Auth.verifyToken,
-  async (req: Request, res: Response) => {
-    const { body } = req;
-
-    const newMatch = await SequelizeMatch.create({
-      homeTeamId: body.homeTeamId,
-      homeTeamGoals: body.homeTeamGoals,
-      awayTeamId: body.awayTeamId,
-      awayTeamGoals: body.awayTeamGoals,
-      inProgress: true,
-    });
-
-    return res.status(201).json(newMatch);
-  },
+  async (req: Request, res: Response) => matchController.create(req, res),
 );
 
 export default router;
