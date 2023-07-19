@@ -56,14 +56,15 @@ class MatchService {
       };
     }
 
+    if (data.inProgress === false) {
+      return { status: 'INVALID_DATA', data: { message: 'Match status must be in progress' } };
+    }
+
     const home = await teamModel.findById(homeTeamId);
     const away = await teamModel.findById(awayTeamId);
 
     if (!home || !away) {
-      return {
-        status: 'NOT_FOUND',
-        data: { message: 'There is no team with such id!' },
-      };
+      return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
     }
 
     const modelResponse = await this.matchModel.create(data);
