@@ -1,5 +1,3 @@
-import { IMatch } from '../../../Interfaces/matches/IMatch';
-
 export const finishedMatch = {
   id: 1,
   homeTeamId: 2,
@@ -39,13 +37,19 @@ export const updatedMatch = {
   inProgress: false,
 }
 
-export const createMatch = {
+export const newMatch = {
   homeTeamId: 16,
   homeTeamGoals: 1,
   awayTeamId: 8,
   awayTeamGoals: 1,
-  inProgress: false,
+  inProgress: true,
 }
+
+export const newFinishedMatch = { ...newMatch, inProgress: false }
+
+export const newMatchCreated = { ...newMatch, id: 1 }
+
+export const newMatchSameId = { ...newMatch, homeTeamId: 8 }
 
 export const matchToUpdate = {
   homeTeamGoals: 3,
