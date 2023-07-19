@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import SequelizeMatch from '../database/models/SequelizeMatch';
 
 import { app } from '../app';
-import { allMatches, updatedMatch } from './mocks/matches/match.mock';
+import { allMatches, createMatch, updatedMatch } from './mocks/matches/match.mock';
 import Jwt from '../utils/jwtAuth';
 import { userMock } from './mocks/users/users.mock';
 
@@ -59,7 +59,9 @@ describe('Testa a rota /matches', () => {
   describe('Dado o método POST', () => {
     describe('Dado que um token não foi informado', () => {
       it('Retorna uma mensagem de erro com status 401', async function() {         
-        const { status, body } = await chai.request(app).post('/matches');
+        const { status, body } = await chai.request(app)
+        .post('/matches')
+        .send(createMatch);
       
         expect(status).to.be.equal(401);
         expect(body.message).to.deep.equal('Token not found');
@@ -80,7 +82,7 @@ describe('Testa a rota /matches', () => {
     });
 
     describe('Dado um token válido', () => {
-      it('Retorna um erro com status 401', async function() {         
+      it('Retorna a partida inserida com status 201', async function() {         
         const validToken = 'validToken';
         const match = SequelizeMatch.build(updatedMatch);
 
