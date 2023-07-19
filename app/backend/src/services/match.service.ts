@@ -28,6 +28,19 @@ class MatchService {
       data: { message: 'Finished' },
     };
   }
+
+  public async update(id: IMatch['id'], data: Partial<IMatch>): Promise<ServiceResponse<IMatch>> {
+    const modelResponse = await this.matchModel.update(id, data);
+
+    if (!modelResponse) {
+      return {
+        status: 'INVALID_DATA',
+        data: { message: 'No match has been updated' },
+      };
+    }
+
+    return { status: 'SUCCESSFUL', data: modelResponse };
+  }
 }
 
 export default MatchService;

@@ -16,12 +16,27 @@ class MatchModel implements IMatchModel {
     return dbData;
   }
 
+  async findById(id: number): Promise<IMatch | null> {
+    const dbData = await this.model.findByPk(id);
+    if (!dbData) return null;
+    return dbData;
+  }
+
   async finish(id: IMatch['id']): Promise<number> {
     const [affectedRows] = await this.model.update(
       { inProgress: false },
       { where: { id } },
     );
     return affectedRows;
+  }
+
+  async update(id: IMatch['id'], data: Partial<IMatch>): Promise<IMatch | null> {
+    const [affectedRows] = await this.model.update(
+      data,
+      { where: { id } },
+    );
+    if (affectedRows === 0) return null;
+    return this.findById(id);
   }
 }
 
