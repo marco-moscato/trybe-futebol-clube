@@ -1,3 +1,4 @@
+import { NewEntity } from '../Interfaces';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
@@ -39,6 +40,11 @@ class MatchService {
       };
     }
 
+    return { status: 'SUCCESSFUL', data: modelResponse };
+  }
+
+  public async create(data: NewEntity<IMatch>): Promise<ServiceResponse<IMatch>> {
+    const modelResponse = await this.matchModel.create(data);
     return { status: 'SUCCESSFUL', data: modelResponse };
   }
 }
