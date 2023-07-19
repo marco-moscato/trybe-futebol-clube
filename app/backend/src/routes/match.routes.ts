@@ -3,6 +3,7 @@ import MatchController from '../controllers/match.controller';
 import MatchService from '../services/match.service';
 import MatchModel from '../models/match.model';
 import Auth from '../middlewares/auth.middleware';
+import matchValidation from '../middlewares/matchValidation.middleware';
 
 const router = Router();
 const matchModel = new MatchModel();
@@ -29,6 +30,7 @@ router.patch(
 router.post(
   '/',
   Auth.verifyToken,
+  matchValidation.validateCreation,
   async (req: Request, res: Response) => matchController.create(req, res),
 );
 
