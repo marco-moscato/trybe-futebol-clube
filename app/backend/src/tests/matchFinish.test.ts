@@ -1,11 +1,16 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import { app } from '../app';
-import SequelizeMatch from '../database/models/SequelizeMatch';
+// @ts-ignore
+import chaiHttp = require('chai-http');
+
 import Jwt from '../utils/jwtAuth';
+import SequelizeMatch from '../database/models/SequelizeMatch';
 import { userMock } from './mocks/users/users.mock';
 
 const { expect } = chai;
+
+chai.use(chaiHttp);
 
 describe('Testa a rota /matches/:id/finish', () => {
  
