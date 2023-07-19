@@ -1,3 +1,4 @@
+import { NewEntity } from '../Interfaces';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import SequelizeMatch from '../database/models/SequelizeMatch';
@@ -37,6 +38,18 @@ class MatchModel implements IMatchModel {
     );
     if (affectedRows === 0) return null;
     return this.findById(id);
+  }
+
+  async create(data: NewEntity<IMatch>): Promise<IMatch> {
+    const newMatch = await SequelizeMatch.create({
+      homeTeamId: data.homeTeamId,
+      homeTeamGoals: data.homeTeamGoals,
+      awayTeamId: data.awayTeamId,
+      awayTeamGoals: data.awayTeamGoals,
+      inProgress: true,
+    });
+    
+    return newMatch;
   }
 }
 
