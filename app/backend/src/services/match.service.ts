@@ -3,6 +3,9 @@ import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import MatchModel from '../models/match.model';
+import TeamModel from '../models/team.model';
+
+const teamModel = new TeamModel();
 
 class MatchService {
   constructor(
@@ -50,6 +53,16 @@ class MatchService {
       return {
         status: 'UNPROCESSABLE',
         data: { message: 'It is not possible to create a match with two equal teams' },
+      };
+    }
+
+    const home = await teamModel.findById(homeTeamId);
+    const away = await teamModel.findById(awayTeamId);
+
+    if (!home || !away) {
+      return {
+        status: 'NOT_FOUND',
+        data: { message: 'There is no team with such id!' },
       };
     }
 
