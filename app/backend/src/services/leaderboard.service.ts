@@ -69,12 +69,12 @@ class LeaderboardService {
   objConstructor = async () => {
     const teams = await this.teamModel.findAll();
 
-    const result = teams.map(async (team) => {
+    return Promise.all(teams.map(async (team) => {
       const allGoals = await this.goals(team.id);
       const allVictories = await this.victories(team.id);
       const allLosses = await this.losses(team.id);
 
-      const obj = {
+      return {
         name: team.teamName,
         totalPoints: allVictories.points,
         totalGames: allGoals.games,
@@ -83,14 +83,28 @@ class LeaderboardService {
         totalLosses: allLosses.losses,
         goalsFavor: allGoals.favor,
         goalsOwn: allGoals.own,
+        goalsBalance: allGoals.favor - allGoals.own,
+        efficiency: ((allVictories.points / (allGoals.games * 3)) * 100).toFixed(2),
       };
-      return obj;
-    });
-    return Promise.all(result);
+    }));
+    // return Promise.all(result);
   };
 
+  public async sortArray() {
+    const leaderboard = await this.objConstructor();
+
+    const result = leaderboard.sort((a, b) => (
+      b.totalPoints - a.totalPoints
+        || b.totalVictories - a.totalVictories
+        || b.goalsBalance - a.goalsBalance
+        || b.goalsFavor - a.goalsFavor
+    ));
+
+    return result;
+  }
+
   public async serviceReturn(): Promise<ServiceResponse<ILeaderboard[]>> {
-    const result = await this.objConstructor();
+    const result = await this.sortArray();
 
     if (!result) return { status: 'NOT_FOUND', data: { message: 'Not Found' } };
 

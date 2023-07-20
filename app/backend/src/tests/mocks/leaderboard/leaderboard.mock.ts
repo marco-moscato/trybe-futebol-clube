@@ -27,6 +27,8 @@ export const leaderboard: ILeaderboard = {
   totalLosses: 0,
   goalsFavor: 1,
   goalsOwn: 1,
+  goalsBalance: 0,
+  efficiency: (( 1 / (1 * 3)) * 100).toFixed(2),
 }
 
 export const leaderboardArray: ILeaderboard[] = [leaderboard];
