@@ -5,7 +5,7 @@ import { ITeamModel } from '../Interfaces/teams/ITeamModel';
 import MatchModel from '../models/match.model';
 import TeamModel from '../models/team.model';
 
-class LeaderboardService {
+class LeaderboardAwayService {
   constructor(
     private matchModel: IMatchModel = new MatchModel(),
     private teamModel: ITeamModel = new TeamModel(),
@@ -26,9 +26,9 @@ class LeaderboardService {
     let games = 0;
 
     finished.forEach((match) => {
-      if (match.homeTeamId === id) {
-        favor += match.homeTeamGoals;
-        own += match.awayTeamGoals;
+      if (match.awayTeamId === id) {
+        favor += match.awayTeamGoals;
+        own += match.homeTeamGoals;
         games += 1;
       }
     });
@@ -43,11 +43,11 @@ class LeaderboardService {
     let points = 0;
 
     matches.forEach((match) => {
-      if (match.homeTeamId === id && match.homeTeamGoals > match.awayTeamGoals) {
+      if (match.awayTeamId === id && match.awayTeamGoals > match.homeTeamGoals) {
         victories += 1;
         points += 3;
       }
-      if (match.homeTeamId === id && match.homeTeamGoals === match.awayTeamGoals) {
+      if (match.awayTeamId === id && match.homeTeamGoals === match.awayTeamGoals) {
         draws += 1;
         points += 1;
       }
@@ -59,7 +59,7 @@ class LeaderboardService {
     const matches = await this.finishedMatches();
     let losses = 0;
     matches.forEach((match) => {
-      if (match.homeTeamId === id && match.homeTeamGoals < match.awayTeamGoals) {
+      if (match.awayTeamId === id && match.awayTeamGoals < match.homeTeamGoals) {
         losses += 1;
       }
     });
@@ -87,7 +87,6 @@ class LeaderboardService {
         efficiency: ((allVictories.points / (allGoals.games * 3)) * 100).toFixed(2),
       };
     }));
-    // return Promise.all(result);
   };
 
   public async sortArray() {
@@ -112,4 +111,4 @@ class LeaderboardService {
   }
 }
 
-export default LeaderboardService;
+export default LeaderboardAwayService;

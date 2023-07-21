@@ -1,14 +1,27 @@
 import { Request, Response } from 'express';
-import LeaderboardService from '../services/leaderboard.service';
+import LeaderboardHomeService from '../services/leaderboardHome.service';
+import LeaderboardAwayService from '../services/leaderboardAway.service';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 class LeaderboardController {
   constructor(
-    private leaderboardService = new LeaderboardService(),
+    private leaderboardHomeService = new LeaderboardHomeService(),
+    private leaderboardAwayService = new LeaderboardAwayService(),
   ) {}
 
-  async findAll(req: Request, res: Response) {
-    const { status, data } = await this.leaderboardService.serviceReturn();
+  async findAllHome(req: Request, res: Response) {
+    const { status, data } = await this.leaderboardHomeService.serviceReturn();
+
+    if (status !== 'SUCCESSFUL') {
+      return res.status(mapStatusHTTP(status)).json(data);
+    }
+
+    return res.status(200).json(data);
+  }
+
+  async findAllAway(req: Request, res: Response) {
+    const { status, data } = await this.leaderboardAwayService.serviceReturn();
+
     if (status !== 'SUCCESSFUL') {
       return res.status(mapStatusHTTP(status)).json(data);
     }

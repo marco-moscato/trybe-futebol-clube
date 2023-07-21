@@ -11,15 +11,22 @@ export const match = {
 
 export const matches = [match]
 
-export const team = {
+export const homeTeam = {
   id: 1,
-  teamName: 'Fake Team Name',
+  teamName: 'Fake Team',
 }
 
-export const teams = [team];
+export const awayTeam = {
+  id: 2,
+  teamName: 'Fake Team',
+}
+
+export const teams = [homeTeam];
+
+export const awayTeams = [awayTeam];
 
 export const leaderboard: ILeaderboard = {
-  name: team.teamName,
+  name: homeTeam.teamName,
   totalPoints: 1,
   totalGames: 1,
   totalVictories: 0,
