@@ -14,9 +14,15 @@ router.get(
   '/home',
   async (req: Request, res: Response) => leaderboardController.findAllHome(req, res),
 );
+
 router.get(
   '/away',
   async (req: Request, res: Response) => leaderboardController.findAllAway(req, res),
+);
+
+router.get(
+  '/',
+  async (req: Request, res: Response) => leaderboardController.findAll(req, res),
 );
 
 export default router;
